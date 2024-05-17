@@ -36,7 +36,7 @@ public class MatrixMultiplication {
     }
 
     public static void main(String[] args) throws IOException {
-        int row1= 5; int row2= 5; int col1= 5; int col2= 5;
+        int row1= 50; int row2= 50; int col1= 50; int col2= 50;
         int[][] matrix1= fill(row1, col1);
         int[][] matrix2= fill(row2,col2);
 
