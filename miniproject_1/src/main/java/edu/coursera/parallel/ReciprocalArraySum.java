@@ -55,10 +55,10 @@ public final class ReciprocalArraySum {
         public double getValue() {
             return value;
         }
-
+        //invoke calls compute
         @Override
         protected void compute() {
-            if(endIndexExclusive - startIndexInclusive <= 10000){
+            if(endIndexExclusive - startIndexInclusive <= 1){
                 for(int i=startIndexInclusive;i<endIndexExclusive;i++){
                     value += 1/input[i];
                 }
@@ -84,7 +84,8 @@ public final class ReciprocalArraySum {
         return sum;
     }
 
-
+    //instead of just 2 tasks- left and right; here we will run many tasks- each
+    //calculating reciprocal sum over various chunks of array
     protected static double parManyTaskArraySum(final double[] input, final int numTasks) {
         double sum = 0;
         ArrayList<ReciprocalArraySumTask> list = new ArrayList<>();
@@ -92,6 +93,9 @@ public final class ReciprocalArraySum {
             int start = getChunkStartInclusive(i, numTasks, input.length);
             int end = getChunkEndExclusive(i, numTasks, input.length);
             list.add(new ReciprocalArraySumTask(start, end, input));
+        }
+        for(int i= 0; i <= list.size()/2; i++) {
+            list.get(i).fork();
         }
         ForkJoinTask.invokeAll(list);
         for(ReciprocalArraySumTask i : list){
