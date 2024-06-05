@@ -11,14 +11,20 @@ public class ParticleApplet extends Applet {
         add(canvas);
     }
 
+    public void check() {
+        Thread t= new Thread();
+        t.start();
+        t.run();
+    }
+
     protected Thread makeThread(final Particle p) { // utility
         Runnable runloop = new Runnable() {
             public void run() {
                 try {
-                    for(;;) {
-                        p.move();
-                        canvas.repaint();
-                        Thread.sleep(100); // 100msec is arbitrary
+                    for(;;) { //forever loop-- broken only when current thread is interrupted
+                        p.move(); //particle moves
+                        canvas.repaint(); //canvas repaints-- paricle will be visible
+                        Thread.sleep(100); // slow down to view
                     }
                 }
                 catch (InterruptedException e) { return; }
@@ -47,4 +53,5 @@ public class ParticleApplet extends Applet {
             threads = null;
         }
     }
+
 }
